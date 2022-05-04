@@ -1,0 +1,33 @@
+name: Sync
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  push:
+    branches: [ main ]
+  workflow_dispatch: 
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    - name: install yarn
+      run: |
+        npm install -g yarn
+    - name: install
+      run: |
+        yarn install
+    - name: build
+      run: |
+        yarn build
+    - name: run update
+      run: |
+        ./bin/sync "${{ secrets.READ_DB }}" "${{ secrets.WRITE_DB }}"
+      env:
+        NOTION_KEY: ${{ secrets.API_KEY }}
