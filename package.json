@@ -1,0 +1,22 @@
+{
+  "name": "notion-secretary",
+  "version": "1.0.0",
+  "description": "manage my notion workspace",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist/ && tsc",
+    "view-readme": "./node_modules/.bin/markdown-viewer -b"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "markdown-viewer": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@notionhq/client": "^1.0.4"
+  }
+}
