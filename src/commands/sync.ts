@@ -89,7 +89,6 @@ const shouldSchedule = function (schedule: Task, task: QueryDatabaseResponse): b
     const frequency_interval = INTERVALS[schedule.frequency] * MILLIS_PER_DAY;
     const schedule_to_date = new Date(now + (MILLIS_PER_DAY * LOOK_AHEAD));
     const next_date = new Date(curr.getTime() + frequency_interval);
-    console.log(`Checking freshness to date ${schedule_to_date} vs next_date ${next_date} for task ${schedule.task}`);
     return next_date < schedule_to_date;
   }
 };
@@ -183,7 +182,6 @@ const getDatabaseIds = async function (): Promise<Ids> {
           }
         }
       };
-      console.log(`Inserting task='${JSON.stringify(task)}' with Start='${next_date}'`);
       await notion.pages.create(insert);
     }
   }
