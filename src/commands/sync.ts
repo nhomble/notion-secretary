@@ -1,12 +1,11 @@
 import {Client} from "@notionhq/client";
-import {CreatePageParameters, GetDatabaseResponse, QueryDatabaseResponse} from "@notionhq/client/build/src/api-endpoints";
+import {CreatePageParameters, QueryDatabaseResponse} from "@notionhq/client/build/src/api-endpoints";
 
 const LOOK_AHEAD = 7;
 const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
 
 const token = process.env.NOTION_KEY
-const read_db_id = process.argv[2];
-const write_db_id = process.argv[3];
+const control_db_id = process.argv[2];
 
 const notion = new Client({
   auth: token,
@@ -117,24 +116,52 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
   }
 };
 
-const getContextForTask = function(task): string[] {
+const getContextForTask = function (task): string[] {
   const ret: string[] = [];
   const o = task["properties"].Context.multi_select;
-  for(const item of o){
+  for (const item of o) {
     ret.push(item.name);
   }
   return ret;
 };
 
+type Ids = {
+  tasks: string,
+  contexts: string,
+  reoccuring: string,
+};
+
+const getDatabaseIds = async function (): Promise<Ids> {
+  return notion.databases.query({
+    database_id: control_db_id,
+  }).then(resp => {
+    const ret = {};
+    const m = {
+      TASKS_DB: "tasks",
+      CONTEXTS_DB: "contexts",
+      REOCURRING_DB: "reoccuring",
+    };
+    resp.results.forEach(row => {
+      const props = row["properties"];
+      const db = props.Name.title[0].plain_text;
+      const id = props.Id.rich_text[0].plain_text;
+      const key = m[db];
+      ret[key] = id;
+    });
+    return ret as Ids;
+  });
+};
+
 (async () => {
-  const reoccuring = await getTasks(read_db_id);
+  const ids = await getDatabaseIds();
+  const reoccuring = await getTasks(ids.reoccuring);
   for (const task of reoccuring) {
-    const found = await findTask(write_db_id, task.task);
+    const found = await findTask(ids.tasks, task.task);
     if (shouldSchedule(task, found)) {
       const next_date = pickNextDate(task, found);
       const insert: CreatePageParameters = {
         parent: {
-          database_id: write_db_id,
+          database_id: ids.tasks,
           type: "database_id"
         },
         properties: {
