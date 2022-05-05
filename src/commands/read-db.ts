@@ -13,6 +13,7 @@ const notion = new Client({
     return d;
   });
   console.log(`id of Name is ${db_props.properties["Name"].id}`);
+  console.log(db_props.properties["Context"]["multi_select"].options);
   const rows = await notion.databases.query({
     database_id: database_id,
   });
@@ -21,8 +22,9 @@ const notion = new Client({
     notion.pages.retrieve({
       page_id: page_id,
     }).then(p => {
-      const o = p["properties"].Context.rich_text;
-      const context = (o.length == 0) ? "" : o[0].plain_text;
+      console.log(p["properties"].Context);
+      const o = p["properties"].Context.multi_select;
+      const context = (o.length == 0) ? "" : o[0].name;
       console.log(`${p["properties"].Name.title[0].plain_text} - ${context}`);
     });;
   });
