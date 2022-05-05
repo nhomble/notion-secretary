@@ -22,10 +22,13 @@ const notion = new Client({
     notion.pages.retrieve({
       page_id: page_id,
     }).then(p => {
-      console.log(p["properties"].Context);
+      const ret: string[] = [];
       const o = p["properties"].Context.multi_select;
-      const context = (o.length == 0) ? "" : o[0].name;
-      console.log(`${p["properties"].Name.title[0].plain_text} - ${context}`);
+      for (const item of o) {
+        ret.push(item.name);
+      }
+
+      console.log(`${p["properties"].Name.title[0].plain_text} - ${ret}`);
     });;
   });
 })();
