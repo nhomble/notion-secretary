@@ -19,6 +19,7 @@ const INTERVALS = {
 type Task = {
   task: string,
   frequency: "daily" | "weekly",
+  context: string[],
 };
 
 /**
@@ -39,6 +40,7 @@ const getTasks = async function (dbId: string): Promise<Array<Task>> {
       ret.push({
         task: page["properties"].Name.title[0].plain_text,
         frequency: page["properties"].Frequency.multi_select[0].name,
+        context: getContextForTask(row),
       });
     }
     return ret;
@@ -115,6 +117,15 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
   }
 };
 
+const getContextForTask = function(task): string[] {
+  const ret: string[] = [];
+  const o = task["properties"].Context.multi_select;
+  for(const item of o){
+    ret.push(item.name);
+  }
+  return ret;
+};
+
 (async () => {
   const reoccuring = await getTasks(read_db_id);
   for (const task of reoccuring) {
@@ -145,7 +156,7 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
           }
         }
       };
-      console.log(`Inserting task='${task.task}' with Start='${next_date}'`);
+      console.log(`Inserting task='${JSON.stringify(task)}' with Start='${next_date}'`);
       await notion.pages.create(insert);
     }
   }
