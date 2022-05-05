@@ -21,7 +21,9 @@ const notion = new Client({
     notion.pages.retrieve({
       page_id: page_id,
     }).then(p => {
-      console.log(p["properties"].Name.title[0].plain_text);
+      const o = p["properties"].Context.rich_text;
+      const context = (o.length == 0) ? "" : o[0].plain_text;
+      console.log(`${p["properties"].Name.title[0].plain_text} - ${context}`);
     });;
   });
 })();
