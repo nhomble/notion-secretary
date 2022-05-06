@@ -1,5 +1,6 @@
 import {Client} from "@notionhq/client";
 import {CreatePageParameters, QueryDatabaseResponse} from "@notionhq/client/build/src/api-endpoints";
+import {getDatabaseIds} from "..";
 
 const LOOK_AHEAD = 2;
 const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -124,35 +125,8 @@ const getContextForTask = function (task): string[] {
   return ret;
 };
 
-type Ids = {
-  tasks: string,
-  contexts: string,
-  reoccuring: string,
-};
-
-const getDatabaseIds = async function (): Promise<Ids> {
-  return notion.databases.query({
-    database_id: control_db_id,
-  }).then(resp => {
-    const ret = {};
-    const m = {
-      TASKS_DB: "tasks",
-      CONTEXTS_DB: "contexts",
-      REOCURRING_DB: "reoccuring",
-    };
-    resp.results.forEach(row => {
-      const props = row["properties"];
-      const db = props.Name.title[0].plain_text;
-      const id = props.Id.rich_text[0].plain_text;
-      const key = m[db];
-      ret[key] = id;
-    });
-    return ret as Ids;
-  });
-};
-
 (async () => {
-  const ids = await getDatabaseIds();
+  const ids = await getDatabaseIds(notion, control_db_id);
   const reoccuring = await getTasks(ids.reoccuring);
   for (const task of reoccuring) {
     const found = await findTask(ids.tasks, task.task);

@@ -57,3 +57,13 @@ A read database to retrieve the reoccuring task list
 |----|---------|-------|
 
 It expects a **Name** (`title`) and a **Frequency** multi select which is one of [`daily`, `weekly`]; Context is optionally going to point to something in the **CONTEXTS_DB**.
+
+### `add-task`
+
+Quickly add tasks from the shell with 
+
+```sh
+$ ./bin/add-task hello from the shell
+```
+
+The same `Control Db` concept is used and its id is sourced from an environment variable `NOTION_CONTROL_DB`.
