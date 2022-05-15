@@ -19,7 +19,6 @@ const INTERVALS = {
 type Task = {
   task: string,
   frequency: "daily" | "weekly",
-  context: string[],
 };
 
 /**
@@ -40,7 +39,6 @@ const getTasks = async function (dbId: string): Promise<Array<Task>> {
       ret.push({
         task: page["properties"].Name.title[0].plain_text,
         frequency: page["properties"].Frequency.multi_select[0].name,
-        context: getContextForTask(row),
       });
     }
     return ret;
@@ -114,15 +112,6 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
     const frequency_interval = INTERVALS[schedule.frequency] * MILLIS_PER_DAY;
     return new Date((new Date(start_date)).getTime() + frequency_interval);
   }
-};
-
-const getContextForTask = function (task): string[] {
-  const ret: string[] = [];
-  const o = task["properties"].Context.multi_select;
-  for (const item of o) {
-    ret.push(item.name);
-  }
-  return ret;
 };
 
 (async () => {
