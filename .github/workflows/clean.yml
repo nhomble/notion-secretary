@@ -28,6 +28,6 @@ jobs:
         yarn build
     - name: run update
       run: |
-        ./bin/clean-context "${{ secrets.CONTROL_DB }}"
+        node ./bin/clean-context "${{ secrets.CONTROL_DB }}"
       env:
         NOTION_KEY: ${{ secrets.API_KEY }}
