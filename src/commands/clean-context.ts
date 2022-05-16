@@ -1,9 +1,5 @@
 import { Client } from "@notionhq/client";
-import { pipe } from "fp-ts/lib/function";
 import { getDatabaseIds, Ids } from "..";
-import * as TE from "fp-ts/TaskEither";
-import { ap } from "fp-ts/lib/Identity";
-import { not } from "fp-ts/lib/Predicate";
 
 const token = process.env.NOTION_KEY;
 const controlDbId = process.argv[2];
