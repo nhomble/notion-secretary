@@ -12,7 +12,7 @@ const isTaskComplete = async (notion: Client, task) => {
   return notion.pages.retrieve({ page_id: task.id }).then((p) => {
     return {
       task: task,
-      checked: Boolean(p["properties"]["Done"].checkbox),
+      checked: p["properties"]["Done"].checkbox,
     };
   });
 };
@@ -27,17 +27,20 @@ const cleanContext = async (notion: Client, contextId: string) => {
   );
   const cleaned = relations.filter((ele, i) => {
     const c = completed[i];
-    return completed[i.checked] === false;
+    console.log(`${typeof c.checked} ${c.checked}`);
+    return completed[i].checked === false;
   });
 
-  return notion.pages.update({
-    page_id: ctx.id,
-    properties: {
-      "Pending Tasks": {
-        relation: cleaned,
-      },
-    },
-  });
+  console.log(cleaned);
+
+  // return notion.pages.update({
+  //   page_id: ctx.id,
+  //   properties: {
+  //     "Pending Tasks": {
+  //       relation: cleaned,
+  //     },
+  //   },
+  // });
 };
 
 (async () => {
@@ -47,6 +50,5 @@ const cleanContext = async (notion: Client, contextId: string) => {
   });
   for (const ctx of resp.results) {
     await cleanContext(notion, ctx.id);
-    break;
   }
 })();
