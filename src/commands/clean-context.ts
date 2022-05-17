@@ -29,7 +29,9 @@ const cleanContext = async (notion: Client, contextId: string) => {
     return completed[i].checked === false;
   });
 
-  console.log(cleaned);
+  if (cleaned.length !== relations.length) {
+    console.log(cleaned);
+  }
 
   // return notion.pages.update({
   //   page_id: ctx.id,
