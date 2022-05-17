@@ -29,18 +29,14 @@ const cleanContext = async (notion: Client, contextId: string) => {
     return completed[i].checked === false;
   });
 
-  if (cleaned.length !== relations.length) {
-    console.log(cleaned);
-  }
-
-  // return notion.pages.update({
-  //   page_id: ctx.id,
-  //   properties: {
-  //     "Pending Tasks": {
-  //       relation: cleaned,
-  //     },
-  //   },
-  // });
+  return notion.pages.update({
+    page_id: ctx.id,
+    properties: {
+      "Pending Tasks": {
+        relation: cleaned,
+      },
+    },
+  });
 };
 
 (async () => {
