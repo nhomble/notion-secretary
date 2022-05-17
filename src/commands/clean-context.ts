@@ -27,7 +27,6 @@ const cleanContext = async (notion: Client, contextId: string) => {
   );
   const cleaned = relations.filter((ele, i) => {
     const c = completed[i];
-    console.log(`${typeof c.checked} ${c.checked}`);
     return completed[i].checked === false;
   });
 
