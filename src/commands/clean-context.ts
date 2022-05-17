@@ -26,7 +26,6 @@ const cleanContext = async (notion: Client, contextId: string) => {
     relations.map((r) => isTaskComplete(notion, r))
   );
   const cleaned = relations.filter((ele, i) => {
-    const c = completed[i];
     return completed[i].checked === false;
   });
 
