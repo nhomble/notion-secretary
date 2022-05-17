@@ -27,22 +27,17 @@ const cleanContext = async (notion: Client, contextId: string) => {
   );
   const cleaned = relations.filter((ele, i) => {
     const c = completed[i];
-    console.log(`${typeof c.checked} ${c.checked}`);
-    if(c.checked){
-      console.log("IF");
-    }
-    return !completed[i.checked];
+    return completed[i.checked] === false;
   });
 
-  console.log(cleaned);
-  // const out = await notion.pages.update({
-  //   page_id: ctx.id,
-  //   properties: {
-  //     "Pending Tasks": {
-  //       relation: cleaned,
-  //     },
-  //   },
-  // });
+  return notion.pages.update({
+    page_id: ctx.id,
+    properties: {
+      "Pending Tasks": {
+        relation: cleaned,
+      },
+    },
+  });
 };
 
 (async () => {
