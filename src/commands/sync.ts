@@ -143,7 +143,7 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
               time_zone: "America/New_York",
             },
           },
-          "Repeats?": {
+          "Repeats": {
             type: "checkbox",
             checkbox: true
           }
