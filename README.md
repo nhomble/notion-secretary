@@ -42,8 +42,8 @@ A read-only db to help make configuring new database ids private to my notion pa
 
 A write database to write the new tasks.
 
-|Name|Start|
-|----|-----|
+|Name|Start|Repeats?|
+|----|-----|--------|
 
 ##### Context Db
 

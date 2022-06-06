@@ -142,6 +142,10 @@ const pickNextDate = function (schedule: Task, task: QueryDatabaseResponse): Dat
               start: next_date.toISOString(),
               time_zone: "America/New_York",
             },
+          },
+          "Repeats?": {
+            type: "checkbox",
+            checkbox: true
           }
         }
       };
