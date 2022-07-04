@@ -14,11 +14,12 @@ const notion = new Client({
 const INTERVALS = {
   daily: 1,
   weekly: 7,
+  monthly: 30,
 };
 
 type Task = {
   task: string,
-  frequency: "daily" | "weekly",
+  frequency: "daily" | "weekly" | "monthly",
 };
 
 /**
