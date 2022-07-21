@@ -2,7 +2,7 @@ import {Client} from "@notionhq/client";
 import {CreatePageParameters, QueryDatabaseResponse} from "@notionhq/client/build/src/api-endpoints";
 import {getDatabaseIds} from "..";
 
-const LOOK_AHEAD = 2;
+const LOOK_AHEAD = 5;
 const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
 
 const token = process.env.NOTION_KEY
