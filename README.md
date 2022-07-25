@@ -67,3 +67,9 @@ $ ./bin/add-task hello from the shell
 ```
 
 The same `Control Db` concept is used and its id is sourced from an environment variable `NOTION_CONTROL_DB`.
+
+## Notes
+
+### Msft Graph Auth Token
+
+Impersonate yourself by going to https://developer.microsoft.com/en-us/graph/graph-explorer and plucking out the token. 
