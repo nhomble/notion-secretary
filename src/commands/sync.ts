@@ -18,11 +18,12 @@ const INTERVALS = {
   daily: 1,
   weekly: 7,
   monthly: 30,
+  yearly: 364
 };
 
 type Task = {
   task: string;
-  frequency: "daily" | "weekly" | "monthly";
+  frequency: "daily" | "weekly" | "monthly" | "yearly";
 };
 
 /**
