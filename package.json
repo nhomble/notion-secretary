@@ -10,7 +10,8 @@
     "get-msft-tasks": "ts-node src/commands/get-msft-tasks.ts",
     "find-databases": "ts-node src/commands/find-databases.ts",
     "get-todays-notion-tasks": "ts-node src/commands/get-todays-notion-tasks.ts",
-    "list-contexts": "ts-node src/commands/list-contexts.ts"
+    "list-contexts": "ts-node src/commands/list-contexts.ts",
+    "get-pending-tasks": "ts-node src/commands/get-pending-tasks-for-context.ts"
   },
   "author": "",
   "license": "ISC",
