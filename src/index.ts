@@ -6,8 +6,7 @@ export type Ids = {
   reoccuring: string,
 };
 
-
-export const getDatabaseIds = async function (notion: Client, control_db_id: string): Promise<Ids> {
+export const getDatabaseIds = async (notion: Client, control_db_id: string): Promise<Ids> => {
   return notion.databases.query({
     database_id: control_db_id,
   }).then(resp => {
