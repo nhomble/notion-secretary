@@ -1,5 +1,5 @@
-import { Client } from "@notionhq/client";
-import { getDatabaseIds } from "..";
+import {Client} from "@notionhq/client";
+import {getDatabaseIds, getPendingTasksForContextId} from "..";
 
 const token = process.env.NOTION_KEY;
 const controlDbId = process.argv[2];
@@ -9,7 +9,7 @@ const notion = new Client({
 });
 
 const isTaskComplete = async (notion: Client, task) => {
-  return notion.pages.retrieve({ page_id: task.id }).then((p) => {
+  return notion.pages.retrieve({page_id: task.id}).then((p) => {
     return {
       task: task,
       checked: p["properties"]["Done"].checkbox,
@@ -18,19 +18,16 @@ const isTaskComplete = async (notion: Client, task) => {
 };
 
 const cleanContext = async (notion: Client, contextId: string) => {
-  const ctx = await notion.pages.retrieve({
-    page_id: contextId,
-  });
-  const relations = ctx["properties"]["Pending Tasks"].relation;
+  const pendingTaskIds = await getPendingTasksForContextId(notion, contextId);
   const completed = await Promise.all(
-    relations.map((r) => isTaskComplete(notion, r))
+    pendingTaskIds.map((r) => isTaskComplete(notion, r))
   );
-  const cleaned = relations.filter((ele, i) => {
+  const cleaned = pendingTaskIds.filter((ele, i) => {
     return completed[i].checked === false;
   });
 
   return notion.pages.update({
-    page_id: ctx.id,
+    page_id: contextId,
     properties: {
       "Pending Tasks": {
         relation: cleaned,

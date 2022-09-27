@@ -6,6 +6,14 @@ export type Ids = {
   reoccuring: string,
 };
 
+export const getPendingTasksForContextId = async (notion: Client, contextId: string) => {
+  const ctx = await notion.pages.retrieve({
+    page_id: contextId,
+  });
+  const relations = ctx["properties"]["Pending Tasks"].relation;
+  return relations; 
+}
+
 export const getDatabaseIds = async (notion: Client, control_db_id: string): Promise<Ids> => {
   return notion.databases.query({
     database_id: control_db_id,
