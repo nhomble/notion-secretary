@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import { getDatabaseIds, Ids } from "..";
+import { getDatabaseIds } from "..";
 
 const token = process.env.NOTION_KEY;
 const controlDbId = process.argv[2];
