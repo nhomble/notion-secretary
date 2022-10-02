@@ -1,4 +1,5 @@
 import {Client} from "@notionhq/client";
+import {PropertyItemListResponse} from "@notionhq/client/build/src/api-endpoints";
 
 export type Ids = {
   tasks: string,
@@ -10,7 +11,12 @@ export const getPendingTasksForContextId = async (notion: Client, contextId: str
   const ctx = await notion.pages.retrieve({
     page_id: contextId,
   });
-  const relations = ctx["properties"]["Pending Tasks"].relation;
+  const response = (await notion.pages.properties.retrieve({
+    page_id: contextId,
+    property_id: ctx['properties']['Pending Tasks'].id
+  })) as PropertyItemListResponse;
+  const results = response.results;
+  const relations = results.map(r => r['relation']);
   return relations; 
 }
 
