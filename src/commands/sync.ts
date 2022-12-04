@@ -18,7 +18,7 @@ const INTERVALS = {
   daily: 1,
   weekly: 7,
   monthly: 30,
-  yearly: 364
+  yearly: 364,
 };
 
 type Task = {
@@ -98,6 +98,9 @@ const shouldSchedule = function (
     // we lookahead in order to give myself time to schedule
     const now = Date.now();
     const curr = new Date(start_date);
+    if (!(schedule.frequency in INTERVALS)) {
+      return false;
+    }
     const frequency_interval = INTERVALS[schedule.frequency] * MILLIS_PER_DAY;
     const schedule_to_date = new Date(now + MILLIS_PER_DAY * LOOK_AHEAD);
     const next_date = new Date(curr.getTime() + frequency_interval);
