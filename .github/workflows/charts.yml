@@ -28,7 +28,7 @@ jobs:
         yarn build
     - name: run update
       run: |
-        node ./bin/update-charts "${{ secrets.CHARTS_DB }}"
+        node ./bin/update-charts "${{ secrets.CHART_DB }}"
       env:
         NOTION_KEY: ${{ secrets.API_KEY }}
         IMGUR_CLIENT_ID: ${{ secrets.IMGUR_CLIENT_ID }}
