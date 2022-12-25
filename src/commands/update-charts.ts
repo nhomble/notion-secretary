@@ -90,13 +90,23 @@ const processChart = async (data: {
     image: chart.getUrl()
   })
   const imgurLink = imgurResponse["data"]["link"]
+
+  const curr = await notion.blocks.retrieve({
+    block_id: data.image_id
+  })
+  const imgurDelete = curr["image"]["caption"][0]["text"]["content"]
+  await imgur.deleteImage(imgurDelete).catch(err => { /* best effort */ })
+
   await notion.blocks.update({
     type: "image",
     block_id: data.image_id,
     image: {
         external: {
             url: imgurLink
-        }
+        },
+        caption: [
+            { type: "text", text: { content: `${imgurResponse["data"]["deletehash"]}`}}
+        ]
     }
   })
 };
