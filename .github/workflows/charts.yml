@@ -1,4 +1,4 @@
-name: Clean Context
+name: Update Charts
 
 on:
   schedule:
