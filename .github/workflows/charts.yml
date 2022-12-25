@@ -8,7 +8,7 @@ on:
   workflow_dispatch: 
 
 jobs:
-  clean_context:
+  update_charts:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
