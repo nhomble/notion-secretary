@@ -75,6 +75,7 @@ const processChart = async (data: {
         xAxes: [
           {
             type: "time",
+            distribution: 'linear',
             time: {
               parser: "YYYY-MM-DDThh:mm:ssZ",
             },
