@@ -52,9 +52,10 @@ const processChart = async (data: {
     .then((out) => {
       return out.results.map((result) => ({
         value: result["properties"][data.key].title[0].plain_text,
-        time: result["properties"]["Time"].created_time,
+        time: new Date(result["properties"]["Time"].created_time).toLocaleString("en-US", {timeZone: "America/New_York"}),
       }));
     });
+    console.log(points)
   const chart = new QuickChart();
   chart.setConfig({
     type: "line",
@@ -62,7 +63,7 @@ const processChart = async (data: {
       datasets: [
         {
           data: points.map((p) => ({
-            x: `${p.time}`,
+            x: p.time,
             y: +p.value,
           })),
           label: data.key,
@@ -76,12 +77,6 @@ const processChart = async (data: {
           {
             type: "time",
             distribution: 'linear',
-            time: {
-              parser: "YYYY-MM-DDThh:mm:ssZ",
-            },
-            displayFormats: {
-              day: "MMM DD YYYY",
-            },
           },
         ],
       },
