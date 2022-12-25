@@ -13,7 +13,8 @@
     "list-contexts": "ts-node src/commands/list-contexts.ts",
     "get-pending-tasks": "ts-node src/commands/get-pending-tasks-for-context.ts",
     "sync": "ts-node src/commands/sync.ts",
-    "clean-context": "ts-node src/commands/clean-context.ts"
+    "clean-context": "ts-node src/commands/clean-context.ts",
+    "update-charts": "ts-node src/commands/update-charts.ts"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +28,8 @@
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^3.0.2",
     "@notionhq/client": "^2.2.0",
-    "isomorphic-fetch": "^3.0.0"
+    "imgur": "^2.2.0",
+    "isomorphic-fetch": "^3.0.0",
+    "quickchart-js": "^3.1.1"
   }
 }

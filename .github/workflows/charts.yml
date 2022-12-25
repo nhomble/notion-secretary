@@ -1,0 +1,35 @@
+name: Clean Context
+
+on:
+  schedule:
+    - cron: "5 */1 * * *"
+  push:
+    branches: [ main ]
+  workflow_dispatch: 
+
+jobs:
+  clean_context:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    - name: install yarn
+      run: |
+        npm install -g yarn
+    - name: install
+      run: |
+        yarn install
+    - name: build
+      run: |
+        yarn build
+    - name: run update
+      run: |
+        node ./bin/update-charts "${{ secrets.CHARTS_DB }}"
+      env:
+        NOTION_KEY: ${{ secrets.API_KEY }}
+        IMGUR_CLIENT_ID: ${{ secrets.IMGUR_CLIENT_ID }}
+        IMGUR_CLIENT_SECRET: ${{ secrets.IMGUR_CLIENT_SECRET }}
